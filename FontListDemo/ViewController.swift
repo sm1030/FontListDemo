@@ -10,25 +10,43 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    /// Enter any search text into this field
     @IBOutlet weak var searchTextField: UITextField!
+    
+    /// Enter any preview text into this field
     @IBOutlet weak var previewTextFiled: UITextField!
+    
+    /// Table view that present font list
     @IBOutlet weak var tableView: UITableView!
+    
+    /// Constraint to control distance between table view bottom and main view bottom
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
     
+    /// This let stores complete unfiltered list off all font names
     let fullFontList = UIFont.getFullFontList()
+    
+    /// This var stores filtered font names list
     var tableData = [String]()
     
+    /*
+     We will setup all objects in here
+     **/
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /// tableView setup
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         updateTableData()
         
+        /// keyboard related stuff setup
         setupKeyboardObservers()
         setupViewTapGestureRecognizer()
     }
 
+    /*
+     We will call this function every time when searchTextField or previewTextFiled changed
+     **/
     func updateTableData() {
         if let filterText = searchTextField?.text?.lowercased() {
             if filterText.count > 0 {
@@ -42,10 +60,16 @@ class ViewController: UIViewController {
         }
     }
     
+    /*
+     Action handler for searchTextField text changed event
+     **/
     @IBAction func filterTextChanged(_ sender: UITextField) {
         updateTableData()
     }
     
+    /*
+     Action handler for previewTextFiled text changed event
+     **/
     @IBAction func previewTextChanged(_ sender: UITextField) {
         updateTableData()
     }
